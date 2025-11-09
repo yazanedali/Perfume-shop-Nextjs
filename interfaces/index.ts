@@ -1,4 +1,4 @@
-import { BrandOwner, RequestStatus, Role, SellerRequest} from "@prisma/client";
+import { RequestStatus, Role } from "@prisma/client";
 
 export interface ICategory {
 
@@ -80,9 +80,15 @@ export interface IUserWithRequests {
 }
 
 export interface Seller {
-  name: string;
-  email: string;
-  productLimit: number;
-  brandOwners: BrandOwner[];
-  sellerRequests: SellerRequest[];
+    name: string;
+    email: string;
+    productLimit: number;
+    brandOwners: Array<{
+        brand: {
+            products: Array<any>;
+        };
+    }>;
+    sellerRequests: Array<{
+        logoUrl?: string | null; // أضف null هنا
+    }>;
 }

@@ -1,8 +1,8 @@
 "use server";
-import { IBrand } from "@/interfaces";
+import { IBrand, Seller } from "@/interfaces";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { Seller } from "@/interfaces";
+
 const prisma = new PrismaClient();
 
 export const getBrandListActions = async () => {
@@ -104,25 +104,23 @@ export const getSellers = async () => {
                     logoUrl: true,
                 },
                 take: 1,
-                orderBy: { createdAt: "desc" }, // latest request first
+                orderBy: { createdAt: "desc" },
             },
         },
     });
 
-    return sellers.map((seller) => ({
+    return sellers.map((seller: Seller) => ({
         sellerName: seller.name,
         sellerEmail: seller.email,
         productLimit: seller.productLimit,
-        brandCount: seller.brandOwners?.length ?? 0,
-        productCount: seller.brandOwners?.reduce(
-            (sum, bo) => sum + (bo.brand?.products?.length ?? 0),
+        brandCount: seller.brandOwners.length,
+        productCount: seller.brandOwners.reduce(
+            (sum, bo) => sum + bo.brand.products.length,
             0
-        ) ?? 0,
-        ownerLogo: seller.sellerRequests?.[0]?.logoUrl ?? null,
+        ),
+        ownerLogo: seller.sellerRequests[0]?.logoUrl ?? null,
     }));
 };
-
-
 
 
 export const getBrandByIdAction = async (id: string) => {
