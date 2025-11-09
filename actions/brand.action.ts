@@ -2,7 +2,7 @@
 import { IBrand } from "@/interfaces";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-
+import { Seller } from "@/interfaces";
 const prisma = new PrismaClient();
 
 export const getBrandListActions = async () => {
@@ -113,12 +113,12 @@ export const getSellers = async () => {
         sellerName: seller.name,
         sellerEmail: seller.email,
         productLimit: seller.productLimit,
-        brandCount: seller.brandOwners.length, // number of brands this seller owns
-        productCount: seller.brandOwners.reduce(
-            (sum, bo) => sum + bo.brand.products.length,
+        brandCount: seller.brandOwners?.length ?? 0,
+        productCount: seller.brandOwners?.reduce(
+            (sum, bo) => sum + (bo.brand?.products?.length ?? 0),
             0
-        ), // total products across all brands
-        ownerLogo: seller.sellerRequests[0]?.logoUrl ?? null,
+        ) ?? 0,
+        ownerLogo: seller.sellerRequests?.[0]?.logoUrl ?? null,
     }));
 };
 

@@ -1,4 +1,4 @@
-import { RequestStatus, Role } from "@prisma/client";
+import { BrandOwner, RequestStatus, Role, SellerRequest} from "@prisma/client";
 
 export interface ICategory {
 
@@ -77,4 +77,12 @@ export interface IUserWithRequests {
     email: string;
     role: Role;
     createdAt: Date;
+}
+
+export interface Seller {
+  name: string;
+  email: string;
+  productLimit: number;
+  brandOwners: BrandOwner[];
+  sellerRequests: SellerRequest[];
 }
