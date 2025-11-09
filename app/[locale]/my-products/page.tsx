@@ -7,7 +7,11 @@ import { getBrandsByOwnerIdActions } from "@/actions/brand.action"; // استي�
 
 import MyProductsClient from "./MyProductsClient";
 
-export default async function MyProductsPage({ params }: { params: { locale: string } }) {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function MyProductsPage({ params }: Props) {
   // لا حاجة لـ await params؛ params هو كائن مباشر
   const { locale } = await params;
   const { userId, role } = await getUserRole(); // جلب معرف المستخدم ودوره
