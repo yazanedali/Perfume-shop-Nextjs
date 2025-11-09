@@ -1,0 +1,160 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  SELLER
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String          @id @map("_id")
+  email          String          @unique
+  name           String
+  role           Role            @default(CLIENT)
+  createdAt      DateTime        @default(now())
+  productLimit   Int             @default(20)
+  brandOwners    BrandOwner[]
+  orders         Order[]
+  cart           Cart?
+  sellerRequests SellerRequest[]
+  products       Product[]
+}
+
+model SellerRequest {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  name        String
+  description String?
+  phone       Int?
+  address     String?
+  logoUrl     String?
+
+  createdAt DateTime      @default(now())
+  status    RequestStatus @default(PENDING)
+}
+
+model Brand {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String  @unique
+  logoUrl String?
+
+  brandOwners BrandOwner[]
+  products    Product[]
+}
+
+model BrandOwner {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  brandId String @db.ObjectId
+  userId  String
+  brand   Brand  @relation(fields: [brandId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+
+  @@unique([brandId, userId])
+}
+
+model Product {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  imageUrl    String
+  quantity    Float
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  categoryId  String      @db.ObjectId
+  category    Category    @relation(fields: [categoryId], references: [id])
+  brandId     String      @db.ObjectId
+  brand       Brand       @relation(fields: [brandId], references: [id])
+  sellerId    String
+  seller      User        @relation(fields: [sellerId], references: [id])
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+  isActive    Boolean     @default(true) // أضف هذا الحقل
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Category {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String    @unique
+  products Product[]
+}
+
+model Order {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  items     OrderItem[]
+  total     Float
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  address   String
+  phone     Int
+}
+
+model OrderItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String  @db.ObjectId
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+}
+
+model Cart {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  cartId    String  @db.ObjectId
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  productId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+}
+
+model HeroSlide {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  subtitle   String
+  imageUrl   String
+  buttonText String
+  href       String
+  isActive   Boolean  @default(true)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+}
+
+type Address {
+  street String
+  city   String
+  state  String
+  zip    String
+}
