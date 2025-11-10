@@ -252,14 +252,23 @@
     "updateImageSuccess": "تم تحديث صورة المنتج بنجاح!",
     "updateImageError": "حدث خطأ أثناء تحديث صورة المنتج. يرجى المحاولة مرة أخرى.",
     "imageUploadError": "فشل رفع الصورة.",
-    "imageRequiredError": "يجب اختيار ملف صورة."
+    "imageRequiredError": "يجب اختيار ملف صورة.",
+    "addNewProduct": "إضافة منتج جديد",
+    "addNewProductDescription": "أضف منتج جديد إلى متجرك مع جميع التفاصيل والصور",
+    "addNewBrand": "إضافة علامة تجارية",
+    "addNewBrandDescription": "أنشئ علامة تجارية جديدة لمنتجاتك",
+    "myProductsCount": "منتجاتي ({count})",
+    "productDetails": "تفاصيل المنتج",
+    "productInformation": "معلومات المنتج", 
+    "manageProductsAndBrands": "إدارة المنتجات والعلامات التجارية"
   },
   "BottomBar": {
     "home": "الرئيسية",
     "categories": "الفئات",
     "discover": "اكتشف",
     "cart": "السلة",
-    "account": "حسابي"
+    "account": "حسابي",
+    "my_orders": "طلباتي"
   },
   "AddToCart": {
     "login_required": "يجب تسجيل الدخول",

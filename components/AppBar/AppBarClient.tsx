@@ -7,6 +7,7 @@ import { ModeToggle } from "../TogleMode";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Gem, Shield, UserCheck, ShoppingCart, LogIn } from "lucide-react";
 import { FiLogIn, FiShoppingCart } from "react-icons/fi";
+import { useEffect, useState } from "react";
 
 type AppBarClientProps = {
   role: string;
@@ -28,8 +29,17 @@ export default function AppBarClient({
   t,
   counterItems,
 }: AppBarClientProps) {
+  const [mounted, setMounted] = useState(false);
+
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
-    <header className="sticky top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
+    <header className="sticky top-0 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 z-50">
       <div className="container mx-auto px-4">
         {/* Desktop Version */}
         <div className="hidden md:flex items-center justify-between py-3 gap-6">
@@ -109,7 +119,7 @@ export default function AppBarClient({
             {/* سلة التسوق (للجميع في الدسكتوب) */}
             <Link
               href="/cart"
-              id="cart-icon"
+              id="desktop-cart-icon"
               className="relative p-2 rounded-full hover:bg-accent transition-colors"
               aria-label={t.cart}
             >

@@ -155,3 +155,14 @@
   animation: cart-bounce 0.7s ease-in-out;
 }
 
+@keyframes cartBounce {
+  0%, 20%, 60%, 100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.3);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+}

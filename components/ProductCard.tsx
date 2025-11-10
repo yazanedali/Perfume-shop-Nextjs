@@ -41,10 +41,9 @@ export default function ProductCard({
   userId,
 }: ProductCardProps) {
   const t = useTranslations("AddToCart");
-
+  const [isHovered, setIsHovered] = useState(false);
   const [alert, setAlert] = useState<null | "login" | "added">(null);
 
-  // Alert فوق الصفحة
   const AlertPortal = () => {
     if (!alert) return null;
 
@@ -73,11 +72,36 @@ export default function ProductCard({
     );
   };
 
+  const triggerCartAnimation = () => {
+    // Desktop cart animation
+    const desktopCartIcon = document.getElementById("desktop-cart-icon");
+    if (desktopCartIcon) {
+      desktopCartIcon.classList.add("cart-animate");
+      setTimeout(() => desktopCartIcon.classList.remove("cart-animate"), 700);
+    }
+
+    // Mobile cart animation
+    const mobileCartIcon = document.getElementById("mobile-cart-icon");
+    if (mobileCartIcon) {
+      mobileCartIcon.classList.add("cart-animate");
+      setTimeout(() => mobileCartIcon.classList.remove("cart-animate"), 700);
+    }
+  };
+
   const handleAddToCart = async () => {
-    if (!userId) return;
+    if (!userId) {
+      setAlert("login");
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+
     try {
       await addToCart(userId, product.id, 1);
       setAlert("added");
+      
+      // Trigger animation for both desktop and mobile
+      triggerCartAnimation();
+      
       setTimeout(() => setAlert(null), 3000);
     } catch (error) {
       console.error("Failed to add to cart:", error);
@@ -96,6 +120,8 @@ export default function ProductCard({
           "group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all hover:shadow-md",
           product.quantity === 0 ? "cursor-not-allowed" : ""
         )}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <Link
           href={`/product/${product.id}`}
@@ -127,43 +153,50 @@ export default function ProductCard({
               {product.description}
             </p>
 
-            <p className="mt-auto text-lg font-bold text-primary">
-              ${product.price.toFixed(2)}
-            </p>
+            <div className="mt-auto flex items-center justify-between">
+              <p className="text-lg font-bold text-primary">
+                ${product.price.toFixed(2)}
+              </p>
+              
+              {/* زر السلة للشاشات الصغيرة */}
+              <button
+                type="button"
+                aria-label="Add to cart"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleAddToCart();
+                }}
+                className={cn(
+                  "md:hidden flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-300",
+                  product.quantity === 0 && "opacity-50 pointer-events-none"
+                )}
+              >
+                <FaShoppingCart size={12} />
+              </button>
+            </div>
           </div>
         </Link>
 
-        {/* زر السلة */}
+        {/* زر السلة للشاشات الكبيرة */}
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Add to cart"
           onClick={(e) => {
             e.stopPropagation();
-            if (!userId) {
-              setAlert("login");
-              setTimeout(() => setAlert(null), 5000);
-              return;
-            }
-
-            const cartIcon = document.getElementById("cart-icon");
-            if (cartIcon) {
-              cartIcon.classList.add("cart-animate");
-              setTimeout(() => cartIcon.classList.remove("cart-animate"), 700);
-            }
-
             handleAddToCart();
           }}
           className={cn(
-            "flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-300",
-            "opacity-0 group-hover:opacity-100 absolute bottom-3 right-3",
-            product.quantity === 0 ? "pointer-events-none" : ""
+            "hidden md:flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-300",
+            "absolute bottom-3 right-3 rtl:right-auto rtl:left-3",
+            isHovered ? "opacity-100" : "opacity-0",
+            product.quantity === 0 ? "pointer-events-none opacity-50" : ""
           )}
         >
           <FaShoppingCart size={14} />
         </motion.button>
 
-        {/* Overlay نفاذ الكمية */}
         {/* Overlay نفاذ الكمية */}
         {product.quantity === 0 && (
           <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px] flex items-center justify-center z-20 pointer-events-none">

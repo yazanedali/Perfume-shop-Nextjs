@@ -3,37 +3,57 @@
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Home, ShoppingCart, User, Gem, LayoutGrid } from "lucide-react";
+import { Home, ShoppingCart, User, Gem, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
-// --- استيراد مكونات Clerk المطلوبة ---
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
-// --- المكون الفرعي للأيقونات العادية (يبقى كما هو) ---
-const BottomNavItem = ({ href, label, icon: Icon, isActive }: any) => {
+// --- المكون المعدل مع الـ counter ---
+const BottomNavItem = ({ href, label, icon: Icon, isActive, id, counter = 0 }: any) => {
   return (
-    <Link
-      href={href}
-      aria-label={label}
-      className={cn(
-        "flex flex-col items-center justify-center h-full w-16 transition-colors duration-200",
-        isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
-      )}
-    >
-      <Icon size={26} strokeWidth={isActive ? 2.5 : 2} />
-    </Link>
+    <div className="relative flex flex-col items-center justify-center h-full w-16">
+      <Link
+        href={href}
+        aria-label={label}
+        className={cn(
+          "flex flex-col items-center justify-center h-full w-full transition-colors duration-200",
+          isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
+        )}
+        id={id}
+      >
+        <Icon size={26} strokeWidth={isActive ? 2.5 : 2} />
+        
+        {/* إضافة الـ counter */}
+        {counter > 0 && (
+          <span className="absolute -top-0.5 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+            {counter}
+          </span>
+        )}
+      </Link>
+    </div>
   );
 };
 
-// --- المكون الرئيسي للشريط السفلي ---
-export default function BottomBar() {
+// --- Props جديدة للـ BottomBar ---
+interface BottomBarProps {
+  counterItems?: number;
+}
+
+export default function BottomBar({ counterItems = 0 }: BottomBarProps) {
   const t = useTranslations("BottomBar");
   const pathname = usePathname();
 
   const leftItems = [
     { href: "/", label: t("home"), icon: Home },
-    { href: "/categories", label: t("categories"), icon: LayoutGrid },
+    { href: "/orders", label: t("my_orders"), icon: Package },
   ];
-  const cartItem = { href: "/cart", label: t("cart"), icon: ShoppingCart };
+  
+  const cartItem = { 
+    href: "/cart", 
+    label: t("cart"), 
+    icon: ShoppingCart,
+    id: "mobile-cart-icon",
+    counter: counterItems // ← نمرر الـ counter هنا
+  };
 
   return (
     <footer className="md:hidden fixed bottom-0 left-0 z-40 w-full h-16 bg-card border-t border-border sm:my-18">
@@ -54,33 +74,32 @@ export default function BottomBar() {
 
         {/* الزر المركزي "الجوهرة" */}
         <div className="col-span-1 flex justify-center">
-            <Link
-              href="/discover"
+            <div
               aria-label={t("discover")}
               className="relative -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/30 transition-transform hover:scale-110"
             >
               <Gem size={32} className="text-primary-foreground" />
-            </Link>
+            </div>
         </div>
 
-        {/* --- هذا هو الجزء الذي تم تعديله بالكامل --- */}
+        {/* العناصر على اليمين */}
         <div className="col-span-2 flex items-center justify-around h-full">
-          {/* عنصر السلة يبقى كما هو */}
+          {/* عنصر السلة مع الـ counter */}
           <BottomNavItem
             href={cartItem.href}
             label={cartItem.label}
             icon={cartItem.icon}
             isActive={pathname === cartItem.href}
+            id={cartItem.id}
+            counter={cartItem.counter} // ← نمرر الـ counter
           />
           
-          {/* عنصر "حسابي" الذي يطابق وظيفة AppBar */}
+          {/* عنصر "حسابي" */}
           <div className="flex items-center justify-center h-full w-16">
             <SignedIn>
-              {/* عند تسجيل الدخول: تظهر صورة الحساب الفعلية */}
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
             <SignedOut>
-              {/* عند الخروج: تظهر أيقونة تفتح نافذة التسجيل */}
               <SignInButton mode="modal">
                 <button 
                   aria-label={t("account")}

@@ -45,9 +45,6 @@ const ContentSidebar = ({
   const mainItems = [
     { title: t("home"), url: "/", icon: Home },
     { title: t("cart"), url: "/cart", icon: ShoppingCart },
-    { title: t("account"), url: "/account", icon: User },
-    { title: t("favorites"), url: "/favorites", icon: Heart },
-    { title: t("bestsellers"), url: "/bestsellers", icon: Star },
   ];
 
   return (

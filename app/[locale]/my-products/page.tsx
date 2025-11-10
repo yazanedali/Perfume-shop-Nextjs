@@ -30,11 +30,12 @@ export default async function MyProductsPage({ params }: Props) {
   const brands = await getBrandsByOwnerIdActions(userId);
 
   return (
-    <MyProductsClient
+ <MyProductsClient
       products={products}
       locale={locale}
-      categories={categories} // تمرير الفئات إلى المكون العميل
-      brands={brands}     // تمرير العلامات التجارية إلى المكون العميل
+      categories={categories}
+      brands={brands}
+      userId={userId} // ← تمرير userId هنا
     />
   );
 }

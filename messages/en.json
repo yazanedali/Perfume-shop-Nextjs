@@ -252,14 +252,23 @@
     "updateImageSuccess": "Product image updated successfully!",
     "updateImageError": "An error occurred while updating the product image. Please try again.",
     "imageUploadError": "Failed to upload image.",
-    "imageRequiredError": "An image file is required."
+    "imageRequiredError": "An image file is required.",
+    "addNewProduct": "Add New Product",
+    "addNewProductDescription": "Add a new product to your store with all details and images",
+    "addNewBrand": "Add New Brand", 
+    "addNewBrandDescription": "Create a new brand for your products",
+    "myProductsCount": "My Products ({count})",
+    "productDetails": "Product Details",
+    "productInformation": "Product Information",
+    "manageProductsAndBrands": "Manage Products and Brands"
   },
   "BottomBar": {
     "home": "Home",
     "categories": "Categories",
     "discover": "Discover",
     "cart": "Cart",
-    "account": "Account"
+    "account": "Account",
+    "my_orders": "My Orders"
   },
   "AddToCart": {
     "login_required": "Login Required",

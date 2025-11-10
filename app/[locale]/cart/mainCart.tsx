@@ -19,13 +19,12 @@ interface CartItem {
 
 const MainCart = ({ userId }: { userId: string }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [shippingOption, setShippingOption] = useState<number>(0);
 
   useEffect(() => {
-    console.log("userId in cart page", userId);
     const fetchCart = async () => {
       if (userId) {
         const cart = await getCart(userId);
-        console.log(cart);
         if (cart?.items) {
           const mapped = cart.items.map((item: any) => ({
             id: item.id,
@@ -51,7 +50,7 @@ const MainCart = ({ userId }: { userId: string }) => {
       currency: "USD",
     }).format(value);
 
-  // Increase item quantity (client side)
+    // Increase item quantity (client side)
   const increaseQuantity = (id: string) => {
     setCartItems((prev) =>
       prev.map((item) =>
@@ -80,12 +79,13 @@ const MainCart = ({ userId }: { userId: string }) => {
     (total, item) => total + item.price * item.quantity,
     0
   );
-  const shipping = cartItems.length > 0 ? 15 : 0;
+  const shipping = cartItems.length > 0 ? shippingOption : 0;
   const total = subtotal + shipping;
 
-  const deleteCart = async () => {
+  const deleteCart = async (): Promise<void> => {
     await clearCart(userId);
   };
+
   return (
     <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-5 lg:grid-cols-8 gap-6 p-4 font-sans">
       {/* Order Summary */}
@@ -100,9 +100,19 @@ const MainCart = ({ userId }: { userId: string }) => {
             <span className="font-medium">{formatPrice(subtotal)}</span>
           </div>
 
-          <div className="flex justify-between">
+          {/* Shipping Select */}
+          <div className="flex justify-between items-center">
             <span className="text-gray-600">Shipping:</span>
-            <span className="font-medium">{formatPrice(shipping)}</span>
+            <select
+              className="border rounded-lg px-3 py-1 text-gray-700"
+              value={shippingOption}
+              onChange={(e) => setShippingOption(Number(e.target.value))}
+            >
+              <option value={0}>اختر مكان التوصيل</option>
+              <option value={20}>الضفة الغربية - $20</option>
+              <option value={30}>القدس - $30</option>
+              <option value={50}>الداخل - $50</option>
+            </select>
           </div>
 
           <div className="flex justify-between pt-4 border-t border-gray-200">
@@ -142,6 +152,7 @@ const MainCart = ({ userId }: { userId: string }) => {
                 <p className="text-amber-600 font-bold mt-1">
                   {formatPrice(item.price)}
                 </p>
+                <p className="text-sm text-gray-500">الكمية: {item.quantity}</p>
               </div>
 
               {/* Quantity Controls */}
@@ -169,6 +180,8 @@ const MainCart = ({ userId }: { userId: string }) => {
                   +
                 </button>
               </div>
+
+              {/* Delete Button */}
               <div className="flex flex-wrap gap-4 items-center">
                 <Button
                   className="bg-red-500 text-white"
@@ -176,7 +189,6 @@ const MainCart = ({ userId }: { userId: string }) => {
                     setCartItems((prev) =>
                       prev.filter((cartItem) => cartItem.id !== item.id)
                     );
-                    console.log("Deleting item with id:", item.id);
                     await deleteCartItem(userId, item.id);
                   }}
                 >

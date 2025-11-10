@@ -19,6 +19,8 @@ import AppBar from "@/components/AppBar/index";
 import PerfumeSidebar from "@/components/PerfumeSidebar";
 import { SearchProvider } from "@/context/SearchContext";
 import SearchBarVisibility from "@/components/SearchBarVisibility";
+import { counterCartItems } from "@/actions/cart.action";
+import { getUserRole } from "@/lib/useUserRole";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,9 +48,10 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
-
+  const { role, userId } = await getUserRole();
   const messages = await getMessages({ locale });
   const isRTL = locale === "ar";
+  const counterItems = await counterCartItems(userId!);
 
   return (
     <html
@@ -76,7 +79,7 @@ export default async function RootLayout({
                     <div className="flex flex-1 overflow-hidden">
                       <Sidebar
                         side={isRTL ? "right" : "left"}
-                        className="pt-15 hidden md:flex w-64 flex-shrink-0"
+                        className="pt-15 hidden md:flex w-64 shrink-0"
                       >
                         <PerfumeSidebar />
                       </Sidebar>
@@ -95,7 +98,7 @@ export default async function RootLayout({
                       </main>
                     </div>
 
-                    <BottomBar />
+                    <BottomBar counterItems={counterItems} />
                   </div>
                 </SearchProvider>
               </SidebarProvider>
