@@ -1,4 +1,4 @@
-import { RequestStatus, Role } from "@prisma/client";
+import { Role } from "@prisma/client";
 
 export interface ICategory {
 
@@ -91,4 +91,36 @@ export interface Seller {
     sellerRequests: Array<{
         logoUrl?: string | null; // أضف null هنا
     }>;
+}
+
+export type RequestStatus = "PENDING" | "APPROVED" | "REJECTED";
+
+
+export interface BrandData {
+  sellerName: string;
+  sellerEmail: string;
+  productLimit: number;
+  brandCount: number;
+  productCount: number;
+  ownerLogo: string | null;
+  companyName: string;
+  description?: string | null;
+  address?: string | null;
+  phone?: string | null;
+  createdAt: Date;
+  userId: string;
+  requestStatus?: RequestStatus | null;
+}
+
+export interface LimitPopupState {
+  open: boolean;
+  sellerEmail?: string;
+  sellerName?: string;
+  oldValue?: number;
+  newValue?: number;
+}
+
+export interface DetailPopupState {
+  open: boolean;
+  seller?: BrandData;
 }

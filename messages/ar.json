@@ -139,7 +139,7 @@
     "categories": "التصنيفات",
     "brands": "العلامات التجارية",
     "footer": "© 2025 متجر العطور. جميع الحقوق محفوظة.",
-    "all_brands": "جميع العلامات التجارية",
+    "all_salers": "جميع البائعين",
     "register_brand": "طلب علامة تجارية",
     "manage_orders": "إدارة الطلبات",
     "myProducts": "منتجاتي",
@@ -275,5 +275,50 @@
     "please_login_to_add_items": "يرجى تسجيل الدخول لإضافة منتجات إلى السلة",
     "added_to_cart": "تمت الإضافة إلى السلة بنجاح!",
     "product_added_successfully": "تمت إضافة المنتج بنجاح!"
+  },
+
+  "SellersManagement": {
+    "title": "إدارة البائعين",
+    "subtitle": "إدارة البائعين وحدود منتجاتهم",
+    "brandCount": "عدد العلامات التجارية",
+    "logo": "الشعار",
+    "ownerName": "اسم المالك",
+    "ownerEmail": "البريد الإلكتروني",
+    "products": "المنتجات",
+    "productLimit": "حد المنتجات",
+    "actions": "الإجراءات",
+    "update": "تحديث",
+    "noSellers": "لا يوجد بائعين للعرض",
+    
+    "updateLimit": "تحديد حد المنتجات",
+    "updateLimitFor": "تحديد حد المنتجات لـ",
+    "currentLimit": "الحد الحالي",
+    "newLimit": "الحد الجديد",
+    "cancel": "إلغاء",
+    "confirmUpdate": "تأكيد التحديث",
+    
+    "sellerDetails": "تفاصيل البائع",
+    "totalBrands": "إجمالي العلامات التجارية",
+    "activeProducts": "المنتجات النشطة",
+    "memberSince": "عضو منذ",
+    "storeInformation": "معلومات المتجر",
+    "sellerName": "اسم البائع",
+    "companyName": "اسم الشركة",
+    "aboutStore": "حول المتجر",
+    "contactInfo": "معلومات التواصل",
+    "status": "الحالة",
+    
+    "stats": {
+      "brands": "العلامات",
+      "products": "المنتجات",
+      "limit": "الحد"
+    },
+    
+    "statusTypes": {
+      "PENDING": "قيد الانتظار",
+      "APPROVED": "مقبول",
+      "REJECTED": "مرفوض"
+    }
   }
+
 }

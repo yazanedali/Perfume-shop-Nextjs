@@ -12,7 +12,8 @@ export default function SearchBarVisibility() {
     pathname.includes("/requests") ||
     pathname.includes("/product") ||
     pathname.includes("/my-products") ||
-    pathname.includes("/carousel-management");
+    pathname.includes("/carousel-management") ||
+    pathname.includes("/brands");
 
   if (isPremiumPage) {
     return null;

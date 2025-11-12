@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -39,6 +39,7 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const t = useTranslations("CarouselManagement");
+  const popupRef = useRef<HTMLDivElement>(null);
 
   const form = useForm({
     resolver: zodResolver(heroSlideFormSchema),
@@ -52,6 +53,25 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
     },
     mode: "onChange",
   });
+
+  // إغلاق الـ popup عند النقر خارجها
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    if (isOpen && slide) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen, slide, onClose]);
 
   // تحديث الفورم عندما يتغير الـ slide
   useEffect(() => {
@@ -67,6 +87,20 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
       });
     }
   }, [slide, isOpen, form]);
+
+  // إغلاق عند الضغط على ESC
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isOpen, onClose]);
 
   const onSubmit = async (values: z.infer<typeof heroSlideFormSchema>) => {
     if (!slide) {
@@ -111,31 +145,22 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
     }
   };
 
-  // إغلاق عند الضغط على ESC
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-    }
-  }, [isOpen, onClose]);
-
   if (!isOpen || !slide) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div 
+        ref={popupRef}
+        className="bg-card border border-border rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <h3 className="text-xl font-semibold">{t("edit_info")}</h3>
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h3 className="text-xl font-semibold text-card-foreground">
+            {t("edit_info")}
+          </h3>
           <button 
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground"
           >
             <X size={24} />
           </button>
@@ -150,12 +175,14 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 name="title" 
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form_title")}</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      {t("form_title")}
+                    </FormLabel>
                     <FormControl>
                       <Input 
                         placeholder={t("form_title")} 
                         {...field}
-                        className="h-12"
+                        className="h-12 bg-background border-border text-foreground"
                       />
                     </FormControl>
                     <FormMessage />
@@ -168,12 +195,14 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 name="subtitle" 
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form_subtitle")}</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      {t("form_subtitle")}
+                    </FormLabel>
                     <FormControl>
                       <Input 
                         placeholder={t("form_subtitle")} 
                         {...field}
-                        className="h-12"
+                        className="h-12 bg-background border-border text-foreground"
                       />
                     </FormControl>
                     <FormMessage />
@@ -186,12 +215,14 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 name="buttonText" 
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form_button_text")}</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      {t("form_button_text")}
+                    </FormLabel>
                     <FormControl>
                       <Input 
                         placeholder={t("form_button_text")} 
                         {...field}
-                        className="h-12"
+                        className="h-12 bg-background border-border text-foreground"
                       />
                     </FormControl>
                     <FormMessage />
@@ -204,12 +235,14 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 name="href" 
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form_href")}</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      {t("form_href")}
+                    </FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="https://example.com" 
                         {...field}
-                        className="h-12"
+                        className="h-12 bg-background border-border text-foreground"
                       />
                     </FormControl>
                     <FormMessage />
@@ -222,12 +255,14 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 name="order" 
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form_order")}</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      {t("form_order")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         placeholder="1"
-                        className="h-12"
+                        className="h-12 bg-background border-border text-foreground"
                         value={field.value as number}
                         onChange={(e) => {
                           const value = e.target.value;
@@ -244,9 +279,11 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 control={form.control} 
                 name="isActive" 
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border border-border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="cursor-pointer">{t("form_is_active")}</FormLabel>
+                      <FormLabel className="cursor-pointer text-card-foreground">
+                        {t("form_is_active")}
+                      </FormLabel>
                     </div>
                     <FormControl>
                       <Switch 
@@ -264,7 +301,7 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                   type="button"
                   variant="outline"
                   onClick={onClose}
-                  className="flex-1 h-12"
+                  className="flex-1 h-12 border-border text-foreground hover:bg-muted"
                   disabled={loading}
                 >
                   {t("cancel")}
@@ -272,7 +309,7 @@ export const EditInfoPopup: React.FC<EditInfoPopupProps> = ({
                 <Button 
                   type="submit" 
                   disabled={loading} 
-                  className="flex-1 h-12 text-base font-medium"
+                  className="flex-1 h-12 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   {loading ? <Spinner /> : t("update_info")}
                 </Button>

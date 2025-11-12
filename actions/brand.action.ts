@@ -133,3 +133,61 @@ export const getBrandByIdAction = async (id: string) => {
         return null;
     }
 };
+
+
+export async function getSellersWithDetails() {
+  try {
+    const sellers = await prisma.user.findMany({
+      where: {
+        role: "SELLER"
+      },
+      include: {
+        sellerRequests: {
+          where: {
+            status: "APPROVED" // فقط الطلبات المقبولة
+          },
+          take: 1 // خذ أحدث طلب مقبول
+        },
+        brandOwners: {
+          include: {
+            brand: {
+              include: {
+                products: true
+              }
+            }
+          }
+        },
+        products: true
+      }
+    });
+
+    const sellersWithDetails = sellers.map(seller => {
+      const sellerRequest = seller.sellerRequests[0]; // أحدث طلب مقبول
+      const totalBrands = seller.brandOwners.length;
+      const totalProducts = seller.products.length;
+
+      return {
+        sellerName: seller.name,
+        sellerEmail: seller.email,
+        productLimit: seller.productLimit,
+        brandCount: totalBrands,
+        productCount: totalProducts,
+        ownerLogo: sellerRequest?.logoUrl || null,
+        // البيانات من SellerRequest
+        companyName: sellerRequest?.name || seller.name,
+        description: sellerRequest?.description || null,
+        address: sellerRequest?.address || null,
+        phone: sellerRequest?.phone ? String(sellerRequest.phone) : null,
+        createdAt: seller.createdAt,
+        // بيانات إضافية
+        userId: seller.id,
+        requestStatus: sellerRequest?.status || null
+      };
+    });
+
+    return sellersWithDetails;
+  } catch (error) {
+    console.error("Error fetching sellers with details:", error);
+    return [];
+  }
+}

@@ -139,7 +139,7 @@
     "categories": "Categories",
     "brands": "Brands",
     "footer": "© 2025 Perfume Store. All rights reserved.",
-    "all_brands": "All Brands",
+    "all_salers": "All Sellers",
     "register_brand": "Register a Brand",
     "manage_orders": "Manage Orders",
     "myProducts": "My Products",
@@ -275,5 +275,50 @@
     "please_login_to_add_items": "Please log in to add items to your cart",
     "added_to_cart": "Added to cart successfully!",
     "product_added_successfully": "Product added successfully!"
+  },
+
+  "SellersManagement": {
+    "title": "Sellers Management",
+    "subtitle": "Manage sellers and their product limits",
+    "brandCount": "Brand Count",
+    "logo": "Logo",
+    "ownerName": "Owner Name",
+    "ownerEmail": "Owner Email",
+    "products": "Products",
+    "productLimit": "Product Limit",
+    "actions": "Actions",
+    "update": "Update",
+    "noSellers": "No sellers to display",
+    
+    "updateLimit": "Update Product Limit",
+    "updateLimitFor": "Update product limit for",
+    "currentLimit": "Current Limit",
+    "newLimit": "New Limit",
+    "cancel": "Cancel",
+    "confirmUpdate": "Confirm Update",
+    
+    "sellerDetails": "Seller Details",
+    "totalBrands": "Total Brands",
+    "activeProducts": "Active Products",
+    "memberSince": "Member since",
+    "storeInformation": "Store Information",
+    "sellerName": "Seller Name",
+    "companyName": "Company Name",
+    "aboutStore": "About Store",
+    "contactInfo": "Contact Information",
+    "status": "Status",
+    
+    "stats": {
+      "brands": "Brands",
+      "products": "Products",
+      "limit": "Limit"
+    },
+    
+    "statusTypes": {
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    }
   }
+
 }

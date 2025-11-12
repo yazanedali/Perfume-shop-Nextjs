@@ -26,7 +26,7 @@ type BrandWithSeller = {
   id: string;
   name: string;
   logoUrl?: string | null;
-  owner: SellerInfo | null; // جعل owner يمكن أن يكون null
+  owner: SellerInfo | null;
   ownerId?: string;
   brandOwners?: any[];
 };

@@ -102,7 +102,7 @@ const ContentSidebar = ({
                   className="text-muted-foreground group-hover:text-inherit transition-colors"
                 />
                 <span className="font-medium text-inherit">
-                  {t("all_brands")}
+                  {t("all_salers")}
                 </span>
               </LinkWithSpinner>
 

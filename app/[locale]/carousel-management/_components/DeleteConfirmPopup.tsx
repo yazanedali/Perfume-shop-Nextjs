@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { X, AlertTriangle } from "lucide-react";
 
@@ -21,28 +21,51 @@ export const DeleteConfirmPopup: React.FC<DeleteConfirmPopupProps> = ({
   loading = false
 }) => {
   const t = useTranslations("CarouselManagement");
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  // إغلاق الـ popup عند النقر خارجها
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+      <div 
+        ref={popupRef}
+        className="bg-card border border-border rounded-lg shadow-xl max-w-md w-full"
+      >
         {/* Header */}
-        <div className="flex items-center gap-3 p-6 border-b">
-          <div className="flex items-center justify-center w-10 h-10 bg-red-100 rounded-full">
-            <AlertTriangle className="w-5 h-5 text-red-600" />
+        <div className="flex items-center gap-3 p-6 border-b border-border">
+          <div className="flex items-center justify-center w-10 h-10 bg-destructive/10 rounded-full">
+            <AlertTriangle className="w-5 h-5 text-destructive" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-card-foreground">
               {t("confirm_delete")}
             </h3>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {t("delete_warning")}
             </p>
           </div>
           <button 
             onClick={onClose}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-1 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground"
           >
             <X size={20} />
           </button>
@@ -50,23 +73,23 @@ export const DeleteConfirmPopup: React.FC<DeleteConfirmPopupProps> = ({
 
         {/* Content */}
         <div className="p-6">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-sm text-red-800 font-medium">
+          <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+            <p className="text-sm text-destructive font-medium">
               "{title}"
             </p>
           </div>
-          <p className="text-sm text-gray-600 mt-3">
+          <p className="text-sm text-muted-foreground mt-3">
             {t("delete_irreversible")}
           </p>
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 p-6 border-t">
+        <div className="flex gap-3 p-6 border-t border-border">
           <Button 
             type="button"
             variant="outline"
             onClick={onClose}
-            className="flex-1 h-12"
+            className="flex-1 h-12 border-border text-foreground hover:bg-muted"
             disabled={loading}
           >
             {t("cancel")}
@@ -74,12 +97,12 @@ export const DeleteConfirmPopup: React.FC<DeleteConfirmPopupProps> = ({
           <Button 
             type="button"
             onClick={onConfirm}
-            className="flex-1 h-12 bg-red-600 hover:bg-red-700 text-white"
+            className="flex-1 h-12 bg-destructive text-destructive-foreground hover:bg-destructive/90"
             disabled={loading}
           >
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                 {t("deleting")}
               </div>
             ) : (
