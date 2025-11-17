@@ -33,6 +33,7 @@ interface ProductCardProps {
   onEditImageClick: (product: Product, e: React.MouseEvent) => void;
   onDeleteClick: (product: Product, e: React.MouseEvent) => void;
   isDeleting: boolean; // لحالة زر الحذف
+  onQuantityClick: (product: Product, e: React.MouseEvent) => void;
 }
 
 export const ProductCard = ({
@@ -43,6 +44,7 @@ export const ProductCard = ({
   onEditImageClick,
   onDeleteClick,
   isDeleting,
+  onQuantityClick,
 }: ProductCardProps) => {
   const t = useTranslations("MyProductsPage");
 
@@ -53,7 +55,7 @@ export const ProductCard = ({
       onClick={() => onProductClick(product)}
     >
       {/* Product Image */}
-      <div className="w-24 h-24 relative overflow-hidden rounded-md border border-border flex-shrink-0">
+      <div className="w-24 h-24 relative overflow-hidden rounded-md border border-border shrink-0">
         <Image
           src={product.imageUrl}
           alt={product.name}
@@ -96,6 +98,13 @@ export const ProductCard = ({
           disabled={isDeleting}
         >
           {t("delete")}
+        </Button>
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={(e) => onQuantityClick(product, e)}
+        >
+          {t("updateQuantity")}
         </Button>
       </div>
     </div>

@@ -98,13 +98,6 @@ export default async function HomePage() {
             <AddCategoryForm />
           </div>
         )}
-
-        {role === "SELLER" && (
-          <>
-            <AddProductForm categories={categories} userId={userId} brands={ownerBrands} />
-            <AddBrandForm userId={userId} />
-          </>
-        )}
       </div>
     </div>
   );

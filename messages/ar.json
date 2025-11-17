@@ -219,7 +219,7 @@
     "updatedAt": "تاريخ التحديث",
     "close": "إغلاق",
     "editProduct": "تعديل المنتج",
-    "confirmDeleteMessage": "هل أنت متأكد من رغبتك في حذف '{productName}'؟",
+    "confirmDeleteMessage": "هل أنت متأكد من رغبتك في حذف: ", 
     "confirmDeleteMessageDefault": "هل أنت متأكد من رغبتك في حذف هذا المنتج؟",
     "productDetailsTitle": "تفاصيل المنتج",
     "productDetailsDescription": "تفاصيل كاملة للمنتج {productName}.",
@@ -260,7 +260,26 @@
     "myProductsCount": "منتجاتي ({count})",
     "productDetails": "تفاصيل المنتج",
     "productInformation": "معلومات المنتج", 
-    "manageProductsAndBrands": "إدارة المنتجات والعلامات التجارية"
+    "manageProductsAndBrands": "إدارة المنتجات والعلامات التجارية",
+    "viewDetails": "عرض التفاصيل",
+     "addBrandButton": "إضافة علامة تجارية",
+    "dialogTitle": "إضافة علامة تجارية جديدة",
+    "dialogDescription": "أضف علامة تجارية جديدة لمتجرك",
+    "nameLabel": "اسم العلامة التجارية",
+    "namePlaceholder": "أدخل اسم العلامة التجارية",
+    "imageLabel": "شعار العلامة التجارية",
+    "saveButton": "حفظ ✅",
+    "uploadError": "فشل في رفع الصورة",
+      "updateQuantity": "تحديث الكمية",
+    "updateQuantityFor": "تحديث كمية المنتج",
+    "currentQuantity": "الكمية الحالية",
+    "enterAdjustment": "أدخل القيمة المراد إضافتها أو طرحها. استخدم رقمًا سالبًا لتقليل المخزون.",
+    "noChangeInQuantity": "لم يتم إدخال أي تغيير على الكمية.",
+    "quantityCannotBeNegative": "لا يمكن أن تكون الكمية النهائية أقل من صفر.",
+    "quantityUpdateSuccess": "تم تحديث الكمية بنجاح!",
+    "quantityUpdateError": "فشل تحديث الكمية.",
+    "updating": "جاري التحديث...",
+    "confirmUpdate": "تأكيد التحديث"
   },
   "BottomBar": {
     "home": "الرئيسية",
@@ -319,6 +338,41 @@
       "APPROVED": "مقبول",
       "REJECTED": "مرفوض"
     }
+  },
+
+  "AddProductForm": {
+    "addProductButton": "إضافة منتج",
+    "dialogTitle": "إضافة منتج جديد",
+    "dialogDescription": "املأ البيانات التالية لإضافة منتج جديد إلى متجرك",
+    "nameLabel": "اسم المنتج",
+    "namePlaceholder": "أدخل اسم المنتج",
+    "descriptionLabel": "وصف المنتج",
+    "descriptionPlaceholder": "أدخل وصف المنتج",
+    "priceLabel": "السعر",
+    "pricePlaceholder": "أدخل سعر المنتج",
+    "imageLabel": "صورة المنتج",
+    "quantityLabel": "الكمية المتاحة",
+    "quantityPlaceholder": "أدخل الكمية المتاحة",
+    "categoryLabel": "الفئة",
+    "categoryPlaceholder": "اختر الفئة",
+    "brandLabel": "العلامة التجارية",
+    "brandPlaceholder": "اختر العلامة التجارية",
+    "saveButton": "حفظ ✅",
+    "saving": "جاري الحفظ...",
+    "uploadError": "فشل في رفع الصورة",
+    "brandNotFound": "لم يتم العثور على العلامة التجارية"
+  },
+
+  "AddBrandForm": {
+    "addBrandButton": "إضافة علامة تجارية",
+    "dialogTitle": "إضافة علامة تجارية جديدة",
+    "dialogDescription": "أضف علامة تجارية جديدة لمتجرك",
+    "nameLabel": "اسم العلامة التجارية",
+    "namePlaceholder": "أدخل اسم العلامة التجارية",
+    "imageLabel": "شعار العلامة التجارية",
+    "saveButton": "حفظ ✅",
+    "saving": "جاري الحفظ...",
+    "uploadError": "فشل في رفع الصورة"
   }
 
 }

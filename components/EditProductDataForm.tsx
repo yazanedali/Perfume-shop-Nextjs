@@ -78,19 +78,18 @@ export const EditProductDataForm = ({
 
   const [loading, setLoading] = useState(false);
 
-
-    const form = useForm({
-      resolver: zodResolver(updateProductDataSchema),
-      defaultValues: {
-         name: "",
+  const form = useForm({
+    resolver: zodResolver(updateProductDataSchema),
+    defaultValues: {
+      name: "",
       description: "",
-      price: undefined,
-      quantity: undefined,
+      price: 0, // غيرت من undefined إلى 0
+      quantity: 0, // غيرت من undefined إلى 0
       categoryId: "",
       BrandId: "",
-      },
-      mode: "onChange",
-    });
+    },
+    mode: "onChange",
+  });
 
   useEffect(() => {
     if (product && isOpen) {
@@ -98,12 +97,19 @@ export const EditProductDataForm = ({
         name: product.name,
         description: product.description,
         price: product.price,
-        quantity: product.quantity,
+        quantity: product.quantity, // الآن الحقل موجود
         categoryId: product.categoryId,
         BrandId: product.brandId,
       });
     } else {
-      form.reset();
+      form.reset({
+        name: "",
+        description: "",
+        price: 0,
+        quantity: 0,
+        categoryId: "",
+        BrandId: "",
+      });
     }
   }, [product, isOpen, form]);
 
@@ -118,7 +124,7 @@ export const EditProductDataForm = ({
         name: values.name,
         description: values.description,
         price: values.price,
-        quantity: values.quantity,
+        quantity: values.quantity, // الآن نرسل الكمية
         categoryId: values.categoryId,
         brandId: values.BrandId,
         // لا يتم تمرير imageUrl هنا
@@ -188,14 +194,10 @@ export const EditProductDataForm = ({
                         type="number"
                         step="0.01"
                         placeholder={t("productPricePlaceholder")}
-                        value={
-                          field.value === undefined || field.value === null
-                            ? ""
-                            : String(field.value)
-                        }
+                        value={field.value === 0 ? "" : String(field.value)} // تحسين العرض
                         onChange={(e) => {
                           const val = e.target.value;
-                          field.onChange(val === "" ? undefined : Number(val));
+                          field.onChange(val === "" ? 0 : Number(val)); // استخدم 0 بدل undefined
                         }}
                         name={field.name}
                         ref={field.ref}
@@ -219,16 +221,15 @@ export const EditProductDataForm = ({
                         type="number"
                         step="1"
                         placeholder={t("productQuantityPlaceholder")}
-                        {...field}
-                        value={
-                          field.value === undefined || field.value === null
-                            ? ""
-                            : String(field.value)
-                        }
+                        value={field.value === 0 ? "" : String(field.value)} // تحسين العرض
                         onChange={(e) => {
                           const val = e.target.value;
-                          field.onChange(val === "" ? undefined : Number(val));
+                          field.onChange(val === "" ? 0 : Number(val)); // استخدم 0 بدل undefined
                         }}
+                        name={field.name}
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        disabled={field.disabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -244,7 +245,7 @@ export const EditProductDataForm = ({
                     <FormLabel>{t("category")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      value={field.value ?? ""}
+                      value={field.value}
                       disabled={loading}
                     >
                       <SelectTrigger>
@@ -271,7 +272,7 @@ export const EditProductDataForm = ({
                     <FormLabel>{t("brand")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      value={field.value ?? ""}
+                      value={field.value}
                       disabled={loading}
                     >
                       <SelectTrigger>

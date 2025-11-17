@@ -219,7 +219,7 @@
     "updatedAt": "Updated At",
     "close": "Close",
     "editProduct": "Edit Product",
-    "confirmDeleteMessage": "Are you sure you want to delete '{productName}'?",
+    "confirmDeleteMessage": "Are you sure you want to delete: ",
     "confirmDeleteMessageDefault": "Are you sure you want to delete this product?",
     "productDetailsTitle": "Product Details",
     "productDetailsDescription": "Full details for product {productName}.",
@@ -260,7 +260,26 @@
     "myProductsCount": "My Products ({count})",
     "productDetails": "Product Details",
     "productInformation": "Product Information",
-    "manageProductsAndBrands": "Manage Products and Brands"
+    "manageProductsAndBrands": "Manage Products and Brands",
+    "viewDetails": "View Details",
+     "addBrandButton": "Add Brand",
+    "dialogTitle": "Add New Brand",
+    "dialogDescription": "Add a new brand to your store",
+    "nameLabel": "Brand Name",
+    "namePlaceholder": "Enter brand name",
+    "imageLabel": "Brand Logo",
+    "saveButton": "Save ✅",
+    "uploadError": "Failed to upload image",
+     "updateQuantity": "Update Quantity",
+    "updateQuantityFor": "Update quantity for",
+    "currentQuantity": "Current quantity",
+    "enterAdjustment": "Enter a value to add or subtract. Use a negative number to decrease stock.",
+    "noChangeInQuantity": "No change was made to the quantity.",
+    "quantityCannotBeNegative": "Final quantity cannot be negative.",
+    "quantityUpdateSuccess": "Quantity updated successfully!",
+    "quantityUpdateError": "Failed to update quantity.",
+    "updating": "Updating...",
+    "confirmUpdate": "Confirm Update"
   },
   "BottomBar": {
     "home": "Home",
@@ -319,6 +338,43 @@
       "APPROVED": "Approved",
       "REJECTED": "Rejected"
     }
+  },
+
+  "AddProductForm": {
+    "addProductButton": "Add Product ➕",
+    "dialogTitle": "Add New Product",
+    "dialogDescription": "Fill in the following details to add a new product to your store",
+    "nameLabel": "Product Name",
+    "namePlaceholder": "Enter product name",
+    "descriptionLabel": "Product Description",
+    "descriptionPlaceholder": "Enter product description",
+    "priceLabel": "Price",
+    "pricePlaceholder": "Enter product price",
+    "imageLabel": "Product Image",
+    "quantityLabel": "Available Quantity",
+    "quantityPlaceholder": "Enter available quantity",
+    "categoryLabel": "Category",
+    "categoryPlaceholder": "Select category",
+    "brandLabel": "Brand",
+    "brandPlaceholder": "Select brand",
+    "saveButton": "Save ✅",
+    "saving": "Saving...",
+    "uploadError": "Failed to upload image",
+    "brandNotFound": "Brand not found"
+  },
+
+
+  "AddBrandForm": {
+    "addBrandButton": "Add Brand ➕",
+    "dialogTitle": "Add New Brand",
+    "dialogDescription": "Add a new brand to your store",
+    "nameLabel": "Brand Name",
+    "namePlaceholder": "Enter brand name",
+    "imageLabel": "Brand Logo",
+    "saveButton": "Save ✅",
+    "saving": "Saving...",
+    "uploadError": "Failed to upload image"
   }
+
 
 }

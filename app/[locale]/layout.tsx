@@ -21,6 +21,7 @@ import { SearchProvider } from "@/context/SearchContext";
 import SearchBarVisibility from "@/components/SearchBarVisibility";
 import { counterCartItems } from "@/actions/cart.action";
 import { getUserRole } from "@/lib/useUserRole";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -61,7 +62,7 @@ export default async function RootLayout({
       className="h-full"
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
         suppressHydrationWarning
       >
         <ClerkProvider>
@@ -84,18 +85,20 @@ export default async function RootLayout({
                         <PerfumeSidebar />
                       </Sidebar>
 
-                      <main className="bg-background flex flex-col mt-3 w-full p-1 sm:p-5 flex-1">
-                        <div className="flex p-1 sm:p-0">
-                          <SidebarTrigger className="p-2 m-2 rounded-lg hover:bg-accent" />
-                          <div className="w-full">
-                            <SearchBarVisibility />
+                      <div className="flex flex-col flex-1 min-w-0"> {/* التعديل هنا */}
+                        <main className="bg-background flex flex-col mt-3 w-full p-1 sm:p-5 flex-1 overflow-hidden"> {/* والتعديل هنا */}
+                          <div className="flex p-1 sm:p-0 items-center gap-2"> {/* والتعديل هنا */}
+                            <SidebarTrigger className="p-2 rounded-lg hover:bg-accent shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <SearchBarVisibility />
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="p-5 sm:mt-6 mt-1 w-full flex-1 overflow-y-auto no-scrollbar pb-20 md:pb-5">
-                          {children}
-                        </div>
-                      </main>
+                          <div className="p-5 sm:mt-6 mt-1 w-full flex-1 overflow-y-auto no-scrollbar pb-20 md:pb-5">
+                            {children}
+                          </div>
+                        </main>
+                      </div>
                     </div>
 
                     <BottomBar counterItems={counterItems} />

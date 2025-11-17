@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-
 import {
   Dialog,
   DialogClose,
@@ -28,10 +27,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { brandFormSchema } from "@/schema";
 import Spinner from "./spinner";
-
 import { createBrandActions } from "@/actions/brand.action";
+import { useTranslations } from "next-intl";
 
 const AddBrandForm = ({ userId }: { userId: string | "" }) => {
+  const t = useTranslations("AddBrandForm");
   const [loading, setLoading] = useState(false);
   const [Isclose, setIsclose] = useState(false);
 
@@ -63,7 +63,7 @@ const AddBrandForm = ({ userId }: { userId: string | "" }) => {
 
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || "Failed to upload image");
+        if (!res.ok) throw new Error(data.error || t("uploadError"));
 
         logoUrl = data.url;
       }
@@ -87,13 +87,13 @@ const AddBrandForm = ({ userId }: { userId: string | "" }) => {
       <DialogTrigger asChild>
         <Button className="flex items-center justify-center">
           <Plus className="mr-2" />
-          Add Brand
+          {t("addBrandButton")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Brand</DialogTitle>
-          <DialogDescription>Add Brand</DialogDescription>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
+          <DialogDescription>{t("dialogDescription")}</DialogDescription>
         </DialogHeader>
         <div className="py-4 max-h-[70vh] overflow-y-auto scroll-hide">
           <Form {...form}>
@@ -103,9 +103,9 @@ const AddBrandForm = ({ userId }: { userId: string | "" }) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>{t("nameLabel")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Product name" {...field} />
+                      <Input placeholder={t("namePlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,7 +117,7 @@ const AddBrandForm = ({ userId }: { userId: string | "" }) => {
                 name="image"
                 render={({ field: { onChange, ref, ...rest } }) => (
                   <FormItem>
-                    <FormLabel>Product Image</FormLabel>
+                    <FormLabel>{t("imageLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         type="file"
@@ -135,10 +135,10 @@ const AddBrandForm = ({ userId }: { userId: string | "" }) => {
               <Button type="submit" disabled={loading}>
                 {loading ? (
                   <>
-                    <Spinner /> Saving...
+                    <Spinner /> {t("saving")}
                   </>
                 ) : (
-                  "Save ✅"
+                  t("saveButton")
                 )}
               </Button>
             </form>

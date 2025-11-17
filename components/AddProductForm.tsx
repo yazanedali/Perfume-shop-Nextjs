@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { ICategory, OwnerBrand } from "@/interfaces";
-
 import {
   Dialog,
   DialogClose,
@@ -38,7 +37,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { createProductActions } from "@/actions/product.action";
-import { getBrandsByOwnerIdActions } from "@/actions/brand.action";
+import { useTranslations } from "next-intl";
 
 const AddProductForm = ({
   categories,
@@ -49,10 +48,11 @@ const AddProductForm = ({
   userId: string | "";
   brands: OwnerBrand[];
 }) => {
-  console.log("Categories:", categories);
+  const t = useTranslations("AddProductForm");
   const [loading, setLoading] = useState(false);
   const [Isclose, setIsclose] = useState(false);
 
+  console.log("Categories:", categories);
   console.log("User ID:", userId);
 
   const form = useForm({
@@ -88,12 +88,12 @@ const AddProductForm = ({
 
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || "Failed to upload image");
+        if (!res.ok) throw new Error(data.error || t("uploadError"));
 
         imageUrl = data.url;
       }
 
-      if (!brands || brands.length === 0) throw new Error("Brand not found");
+      if (!brands || brands.length === 0) throw new Error(t("brandNotFound"));
 
       await createProductActions({
         name: values.name,
@@ -107,8 +107,10 @@ const AddProductForm = ({
       });
 
       setIsclose(false);
+      // يمكنك إضافة toast للنجاح هنا إذا أردت
     } catch (error) {
       console.error(error);
+      // يمكنك إضافة toast للخطأ هنا إذا أردت
     } finally {
       setLoading(false);
     }
@@ -119,13 +121,13 @@ const AddProductForm = ({
       <DialogTrigger asChild>
         <Button className="flex items-center justify-center">
           <Plus className="mr-2" />
-          Add Prodect
+          {t("addProductButton")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Product</DialogTitle>
-          <DialogDescription>Add Product</DialogDescription>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
+          <DialogDescription>{t("dialogDescription")}</DialogDescription>
         </DialogHeader>
         <div className="py-4 max-h-[70vh] overflow-y-auto scroll-hide">
           <Form {...form}>
@@ -135,9 +137,9 @@ const AddProductForm = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>{t("nameLabel")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Product name" {...field} />
+                      <Input placeholder={t("namePlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -148,9 +150,9 @@ const AddProductForm = ({
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>{t("descriptionLabel")}</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Product description" {...field} />
+                      <Textarea placeholder={t("descriptionPlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -161,12 +163,12 @@ const AddProductForm = ({
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>{t("priceLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         step="1"
-                        placeholder="Product price"
+                        placeholder={t("pricePlaceholder")}
                         value={
                           field.value === undefined || field.value === null
                             ? ""
@@ -191,7 +193,7 @@ const AddProductForm = ({
                 name="image"
                 render={({ field: { onChange, ref, ...rest } }) => (
                   <FormItem>
-                    <FormLabel>Product Image</FormLabel>
+                    <FormLabel>{t("imageLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         type="file"
@@ -211,11 +213,11 @@ const AddProductForm = ({
                 name="quantity"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Quantity</FormLabel>
+                    <FormLabel>{t("quantityLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Available quantity"
+                        placeholder={t("quantityPlaceholder")}
                         {...field}
                         value={
                           field.value === undefined || field.value === null
@@ -238,13 +240,13 @@ const AddProductForm = ({
                 name="categoryId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>{t("categoryLabel")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value ?? ""}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
+                        <SelectValue placeholder={t("categoryPlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map((category: ICategory) => (
@@ -264,13 +266,13 @@ const AddProductForm = ({
                 name="BrandId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Brands</FormLabel>
+                    <FormLabel>{t("brandLabel")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value ?? ""}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select brand" />
+                        <SelectValue placeholder={t("brandPlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {brands.map((brand: OwnerBrand) => (
@@ -288,10 +290,10 @@ const AddProductForm = ({
               <Button type="submit" disabled={loading}>
                 {loading ? (
                   <>
-                    <Spinner /> Saving...
+                    <Spinner /> {t("saving")}
                   </>
                 ) : (
-                  "Save ✅"
+                  t("saveButton")
                 )}
               </Button>
             </form>

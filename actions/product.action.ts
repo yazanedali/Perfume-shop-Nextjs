@@ -386,3 +386,54 @@ export async function deleteProduct(productId: string) {
     }
   }
 }
+
+export async function updateProductQuantity({
+  productId,
+  adjustment,
+}: {
+  productId: string;
+  adjustment: number;
+}) {
+  const { userId } = await getUserRole();
+
+  if (!userId) {
+    return { success: false, error: "Unauthorized: User not authenticated." };
+  }
+
+  try {
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { sellerId: true, quantity: true },
+    });
+
+    if (!existingProduct) {
+      return { success: false, error: "Product not found." };
+    }
+
+    if (existingProduct.sellerId !== userId) {
+      return { success: false, error: "Unauthorized: You do not own this product." };
+    }
+
+    const newQuantity = existingProduct.quantity + adjustment;
+
+    if (newQuantity < 0) {
+      return { success: false, error: "Quantity cannot be negative." };
+    }
+
+    const updatedProduct = await prisma.product.update({
+      where: { id: productId },
+      data: {
+        quantity: newQuantity,
+        updatedAt: new Date(),
+      },
+    });
+
+    revalidatePath("/my-products");
+    revalidatePath("/");
+
+    return { success: true, newQuantity: updatedProduct.quantity };
+  } catch (error: any) {
+    console.error("Error updating product quantity:", error);
+    return { success: false, error: error.message || "Failed to update product quantity." };
+  }
+}
