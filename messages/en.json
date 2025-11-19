@@ -255,14 +255,14 @@
     "imageRequiredError": "An image file is required.",
     "addNewProduct": "Add New Product",
     "addNewProductDescription": "Add a new product to your store with all details and images",
-    "addNewBrand": "Add New Brand", 
+    "addNewBrand": "Add New Brand",
     "addNewBrandDescription": "Create a new brand for your products",
     "myProductsCount": "My Products ({count})",
     "productDetails": "Product Details",
     "productInformation": "Product Information",
     "manageProductsAndBrands": "Manage Products and Brands",
     "viewDetails": "View Details",
-     "addBrandButton": "Add Brand",
+    "addBrandButton": "Add Brand",
     "dialogTitle": "Add New Brand",
     "dialogDescription": "Add a new brand to your store",
     "nameLabel": "Brand Name",
@@ -270,7 +270,7 @@
     "imageLabel": "Brand Logo",
     "saveButton": "Save ✅",
     "uploadError": "Failed to upload image",
-     "updateQuantity": "Update Quantity",
+    "updateQuantity": "Update Quantity",
     "updateQuantityFor": "Update quantity for",
     "currentQuantity": "Current quantity",
     "enterAdjustment": "Enter a value to add or subtract. Use a negative number to decrease stock.",
@@ -295,7 +295,6 @@
     "added_to_cart": "Added to cart successfully!",
     "product_added_successfully": "Product added successfully!"
   },
-
   "SellersManagement": {
     "title": "Sellers Management",
     "subtitle": "Manage sellers and their product limits",
@@ -308,14 +307,12 @@
     "actions": "Actions",
     "update": "Update",
     "noSellers": "No sellers to display",
-    
     "updateLimit": "Update Product Limit",
     "updateLimitFor": "Update product limit for",
     "currentLimit": "Current Limit",
     "newLimit": "New Limit",
     "cancel": "Cancel",
     "confirmUpdate": "Confirm Update",
-    
     "sellerDetails": "Seller Details",
     "totalBrands": "Total Brands",
     "activeProducts": "Active Products",
@@ -326,20 +323,17 @@
     "aboutStore": "About Store",
     "contactInfo": "Contact Information",
     "status": "Status",
-    
     "stats": {
       "brands": "Brands",
       "products": "Products",
       "limit": "Limit"
     },
-    
     "statusTypes": {
       "PENDING": "Pending",
       "APPROVED": "Approved",
       "REJECTED": "Rejected"
     }
   },
-
   "AddProductForm": {
     "addProductButton": "Add Product ➕",
     "dialogTitle": "Add New Product",
@@ -362,8 +356,6 @@
     "uploadError": "Failed to upload image",
     "brandNotFound": "Brand not found"
   },
-
-
   "AddBrandForm": {
     "addBrandButton": "Add Brand ➕",
     "dialogTitle": "Add New Brand",
@@ -374,7 +366,33 @@
     "saveButton": "Save ✅",
     "saving": "Saving...",
     "uploadError": "Failed to upload image"
+  },
+  "AddOrderForm": {
+    "confirmOrder": "Confirm Order",
+    "fillOrder": "Fill Order Details",
+    "address": "Address",
+    "addressPlaceholder": "Enter your full address",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
+    "save": "Save Order ✅",
+    "saving": "Saving...",
+    "orderSuccess": "Order created successfully!",
+    "orderError": "Failed to create order. Please try again.",
+    "closingWindow": "Closing window..."
+  },
+  "Cart": {
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal:",
+    "shipping": "Shipping:",
+    "total": "Total:",
+    "westBank": "West Bank",
+    "jerusalem": "Jerusalem",
+    "insideIsrael": "Inside Israel",
+    "yourCartEmpty": "Your cart is empty 🛒",
+    "quantity": "Quantity:",
+    "delete": "Delete",
+    "clearCart": "Clear Cart",
+    "increaseQuantity": "+",
+    "decreaseQuantity": "-"
   }
-
-
 }

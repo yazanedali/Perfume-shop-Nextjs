@@ -3,6 +3,7 @@
 import { clearCart, deleteCartItem, getCart } from "@/actions/cart.action";
 import AddOrderForm from "@/components/order/AddOrderForm";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 
 // Cart item type
@@ -18,6 +19,7 @@ interface CartItem {
 }
 
 const MainCart = ({ userId }: { userId: string }) => {
+  const t = useTranslations();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [shippingOption, setShippingOption] = useState<number>(0);
 
@@ -50,7 +52,7 @@ const MainCart = ({ userId }: { userId: string }) => {
       currency: "USD",
     }).format(value);
 
-    // Increase item quantity (client side)
+  // Increase item quantity (client side)
   const increaseQuantity = (id: string) => {
     setCartItems((prev) =>
       prev.map((item) =>
@@ -86,52 +88,59 @@ const MainCart = ({ userId }: { userId: string }) => {
     await clearCart(userId);
   };
 
+  const handleOrderSuccess = async () => {
+    setCartItems([]);
+    await clearCart(userId);
+  };
+
   return (
     <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-5 lg:grid-cols-8 gap-6 p-4 font-sans">
       {/* Order Summary */}
       <div className="sm:col-span-2 lg:col-span-3 p-6 rounded-2xl shadow-lg border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b pb-3">
-          Order Summary
+        <h2 className="text-xl font-bold mb-6 border-b pb-3">
+          {t("Cart.orderSummary")}
         </h2>
 
         <div className="space-y-4">
           <div className="flex justify-between">
-            <span className="text-gray-600">Subtotal:</span>
+            <span className="">{t("Cart.subtotal")}</span>
             <span className="font-medium">{formatPrice(subtotal)}</span>
           </div>
 
           {/* Shipping Select */}
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Shipping:</span>
+            <span className="">{t("Cart.shipping")}</span>
             <select
-              className="border rounded-lg px-3 py-1 text-gray-700"
+              className="border rounded-lg px-3 py-1"
               value={shippingOption}
               onChange={(e) => setShippingOption(Number(e.target.value))}
             >
-              <option value={0}>اختر مكان التوصيل</option>
-              <option value={20}>الضفة الغربية - $20</option>
-              <option value={30}>القدس - $30</option>
-              <option value={50}>الداخل - $50</option>
+              <option value={20}>{t("Cart.westBank")} - $20</option>
+              <option value={30}>{t("Cart.jerusalem")} - $30</option>
+              <option value={50}>{t("Cart.insideIsrael")} - $50</option>
             </select>
           </div>
 
           <div className="flex justify-between pt-4 border-t border-gray-200">
-            <span className="text-lg font-bold text-gray-800">Total:</span>
+            <span className="text-lg font-bold ">{t("Cart.total")}</span>
             <span className="text-lg font-bold text-amber-600">
               {formatPrice(total)}
             </span>
           </div>
 
-          <AddOrderForm userId={userId} total={total} items={cartItems} />
+          <AddOrderForm
+            userId={userId}
+            total={total}
+            items={cartItems}
+            onOrderSuccess={handleOrderSuccess}
+          />
         </div>
       </div>
 
       {/* Cart Items */}
       <div className="sm:col-span-3 lg:col-span-5 space-y-4">
         {cartItems.length === 0 ? (
-          <p className="text-gray-500 text-center py-10">
-            Your cart is empty 🛒
-          </p>
+          <p className="text-center py-10">{t("Cart.yourCartEmpty")}</p>
         ) : (
           cartItems.map((item) => (
             <div
@@ -147,21 +156,23 @@ const MainCart = ({ userId }: { userId: string }) => {
 
               {/* Details */}
               <div className="flex-1 w-full">
-                <h3 className="font-bold text-gray-800">{item.name}</h3>
-                <p className="text-sm text-gray-500">{item.brand}</p>
+                <h3 className="font-bold ">{item.name}</h3>
+                <p className="text-sm ">{item.brand}</p>
                 <p className="text-amber-600 font-bold mt-1">
                   {formatPrice(item.price)}
                 </p>
-                <p className="text-sm text-gray-500">الكمية: {item.quantity}</p>
+                <p className="text-sm ">
+                  {t("Cart.quantity")} {item.quantity}
+                </p>
               </div>
 
               {/* Quantity Controls */}
               <div className="flex items-center border border-gray-200 rounded-lg">
                 <button
                   onClick={() => decreaseQuantity(item.id)}
-                  className="px-3 py-1 text-gray-600 hover:bg-gray-100"
+                  className="px-3 py-1  hover:bg-gray-100"
                 >
-                  -
+                  {t("Cart.decreaseQuantity")}
                 </button>
 
                 <span className="px-3 py-1 border-x border-gray-200">
@@ -171,13 +182,13 @@ const MainCart = ({ userId }: { userId: string }) => {
                 <button
                   onClick={() => increaseQuantity(item.id)}
                   disabled={item.quantity >= item.maxQuantity}
-                  className={`px-3 py-1 text-gray-600 hover:bg-gray-100 ${
+                  className={`px-3 py-1  hover:bg-gray-100 ${
                     item.quantity >= item.maxQuantity
                       ? "opacity-50 cursor-not-allowed"
                       : ""
                   }`}
                 >
-                  +
+                  {t("Cart.increaseQuantity")}
                 </button>
               </div>
 
@@ -192,7 +203,7 @@ const MainCart = ({ userId }: { userId: string }) => {
                     await deleteCartItem(userId, item.id);
                   }}
                 >
-                  Delete
+                  {t("Cart.delete")}
                 </Button>
               </div>
             </div>
@@ -206,7 +217,7 @@ const MainCart = ({ userId }: { userId: string }) => {
               await deleteCart();
             }}
           >
-            حذف السلة
+            {t("Cart.clearCart")}
           </Button>
         </div>
       </div>

@@ -60,12 +60,22 @@ const AdminOrdersPage = () => {
           className="border rounded-lg p-4 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
         >
           <div className="flex flex-col gap-1 w-full md:w-2/3">
+            {/* اسم المستخدم والإيميل */}
             <div className="font-semibold">
               {order.user.name} ({order.user.email})
             </div>
+
+            {/* رقم الهاتف والعنوان */}
+            <div className="text-sm text-gray-600">
+              Phone: {order.phone} | Address: {order.address}
+            </div>
+
+            {/* المجموع الكلي */}
             <div className="text-sm text-gray-600">
               Total: ${order.total.toFixed(2)}
             </div>
+
+            {/* العناصر */}
             <div className="flex flex-col gap-2 mt-2">
               {order.items.map((item) => (
                 <div
